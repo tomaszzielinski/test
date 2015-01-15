@@ -12,7 +12,7 @@ RUN pip install -r configuration/requirements.txt
 
 WORKDIR /configuration/playbooks
 
-RUN /usr/sbin/runsvdir-start & ansible-playbook -vv -c local -i "127.0.0.1," docker_lite.yml
+RUN /usr/sbin/runsvdir-start>/dev/null & ansible-playbook -vv -c local -i "127.0.0.1," docker_lite.yml
 
 EXPOSE 80 18010 18020
 
