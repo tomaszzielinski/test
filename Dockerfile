@@ -12,9 +12,11 @@ RUN pip install -r configuration/requirements.txt
 
 WORKDIR /configuration/playbooks
 
+# Run the provisioning (TODO: remove temporary/unnecessary files&folders afterwards + things like: apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*)
 RUN /usr/sbin/runsvdir-start>/dev/null & ansible-playbook -vv -c local -i "127.0.0.1," docker_lite.yml
 
-EXPOSE 80 18010 18020
+# Load the demo course as for some reason it is missing after the provisioning
+# `sleep 5` is an easy way to make sure that MongoDB (which stores the course data) is up and running
+RUN /usr/sbin/runsvdir-start>/dev/null & sleep 5 && /edx/app/edxapp/venvs/edxapp/bin/python ./manage.py cms --settings=docker import /edx/var/edxapp/data /edx/app/demo/edx-demo-course
 
-# Cleanup
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+EXPOSE 80 18010 18020
