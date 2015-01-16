@@ -20,8 +20,8 @@ RUN /usr/sbin/runsvdir-start>/dev/null & \
 
 WORKDIR /edx/app/edxapp/edx-platform
 
-# Load the demo course as for some reason it is missing after the provisioning
-# `sleep 5` is an easy way to make sure that MongoDB (which stores the course data) is up and running
+# Load the demo course once again as for some reason it is missing after the provisioning completes
+# (`sleep 5` is an easy way to make sure that MongoDB (which stores the course data) is up and running)
 RUN /usr/sbin/runsvdir-start>/dev/null & \
     sleep 5 && \
     /edx/app/edxapp/venvs/edxapp/bin/python manage.py cms --settings=docker import /edx/var/edxapp/data /edx/app/demo/edx-demo-course
