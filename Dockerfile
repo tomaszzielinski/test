@@ -19,4 +19,8 @@ RUN /usr/sbin/runsvdir-start>/dev/null & ansible-playbook -vv -c local -i "127.0
 # `sleep 5` is an easy way to make sure that MongoDB (which stores the course data) is up and running
 RUN /usr/sbin/runsvdir-start>/dev/null & sleep 5 && /edx/app/edxapp/venvs/edxapp/bin/python ./manage.py cms --settings=docker import /edx/var/edxapp/data /edx/app/demo/edx-demo-course
 
+# Remove the forum.sock file as it might prevent the forum app from starting
+# This is a separate step to be sure that nothing bad happens in the background (i.e. forum.sock is not recreated)   
+RUN /bin/rm /edx/var/forum/forum.sock
+
 EXPOSE 80 18010 18020
