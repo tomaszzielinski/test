@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update &&  \
     apt-get install -y python-dev python-setuptools python-apt gcc git-core && \
     easy_install pip &&  \
-    git clone https://github.com/tomaszzielinski/configuration.git -b docker_release /configuration && \
+    git clone https://github.com/appsembler/configuration.git -b docker_release /configuration && \
     pip install -r configuration/requirements.txt
 
 WORKDIR /configuration/playbooks
